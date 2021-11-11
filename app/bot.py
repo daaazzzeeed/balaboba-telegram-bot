@@ -20,7 +20,7 @@ def help(message):
     bot.reply_to(message, text_responses.get_help())
 
 
-@bot.message_handler(func=lambda message: True, content_types=["text"])
+@bot.message_handler(content_types=["text"])
 def response_to_user(message):
     text = get_balaboba_text(message.text)
     bot.reply_to(message, text)
