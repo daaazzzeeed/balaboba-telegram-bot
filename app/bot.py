@@ -10,7 +10,7 @@ bot = telebot.TeleBot(BOT_TOKEN)
 
 @bot.message_handler(commands=["start"])
 def start(message):
-    bot.reply_to(message, text_responses.hello_message(message.from_user.name))
+    bot.reply_to(message, text_responses.hello_message(message.from_user.first_name))
     bot.reply_to(message, text_responses.bot_description())
     bot.reply_to(message, text_responses.get_help())
 
