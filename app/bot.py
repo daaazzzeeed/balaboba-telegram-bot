@@ -1,7 +1,8 @@
 from fastapi import FastAPI, Request
 import telebot
 from app.config import BOT_TOKEN, APP_URL
-import uvicorn
+from balaboba import get_balaboba_text
+import text_responses
 
 app = FastAPI()
 bot = telebot.TeleBot(BOT_TOKEN)
@@ -9,12 +10,19 @@ bot = telebot.TeleBot(BOT_TOKEN)
 
 @bot.message_handler(commands=["start"])
 def start(message):
-    bot.reply_to(message, "Hello, " + message.from_user.first_name)
+    bot.reply_to(message, text_responses.hello_message(message.from_user.name))
+    bot.reply_to(message, text_responses.bot_description())
+    bot.reply_to(message, text_responses.get_help())
+
+
+@bot.message_handler(commands=["help"])
+def help(message):
+    bot.reply_to(message, text_responses.get_help())
 
 
 @bot.message_handler(func=lambda message: True, content_types=["text"])
-def echo(message):
-    bot.reply_to(message, message.text)
+def response_to_user(message):
+    bot.reply_to(message, await get_balaboba_text(message.text))
 
 
 @app.get("/")
