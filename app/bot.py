@@ -1,8 +1,8 @@
 from fastapi import FastAPI, Request
 import telebot
 from app.config import BOT_TOKEN, APP_URL
-from balaboba import get_balaboba_text
-import text_responses
+from app.balaboba import get_balaboba_text
+import app.text_responses as text_responses
 
 app = FastAPI()
 bot = telebot.TeleBot(BOT_TOKEN)
@@ -21,8 +21,9 @@ def help(message):
 
 
 @bot.message_handler(func=lambda message: True, content_types=["text"])
-def response_to_user(message):
-    bot.reply_to(message, await get_balaboba_text(message.text))
+async def response_to_user(message):
+    text = await get_balaboba_text(message.text)
+    bot.reply_to(message, text)
 
 
 @app.get("/")
