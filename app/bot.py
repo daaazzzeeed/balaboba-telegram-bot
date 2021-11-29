@@ -3,6 +3,7 @@ import telebot
 from app.config import BOT_TOKEN, APP_URL
 from app.balaboba_handler import get_balaboba_text
 import app.text_responses as text_responses
+import asyncio
 
 app = FastAPI()
 bot = telebot.TeleBot(BOT_TOKEN)
@@ -20,8 +21,9 @@ def help(message):
 
 
 @bot.message_handler(content_types=["text"])
-def response_to_user(message):
-    text = get_balaboba_text(message.text)
+async def response_to_user(message):
+    text = await get_balaboba_text(message.text)
+    print(text)
     bot.reply_to(message, text)
 
 
@@ -38,3 +40,5 @@ async def get_message(request: Request):
     update = telebot.types.Update.de_json(data)
     bot.process_new_updates([update])
     return {"message": str(update)}
+
+bot.polling(none_stop=True)
