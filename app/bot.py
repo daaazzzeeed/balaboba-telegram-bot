@@ -1,9 +1,10 @@
+from fastapi import FastAPI
 from aiogram import Bot, Dispatcher, executor, types
 from app.config import settings
 from app.balaboba_handler import get_balaboba_text
 import app.text_responses as text_responses
 
-# app = FastAPI()
+app = FastAPI()
 bot = Bot(settings.BOT_TOKEN)
 dp = Dispatcher(bot)
 
