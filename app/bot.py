@@ -22,6 +22,11 @@ async def help(message: types.Message):
     await message.reply(text_responses.get_help())
 
 
+@dp.message_handler(commands=["stop"])
+async def bye(message: types.Message):
+    await bot.send_message(message.chat.id, "Пока-пока!")
+
+
 @dp.message_handler(content_types=["text"])
 async def response_to_user(message):
     text = await get_balaboba_text(message.text)
