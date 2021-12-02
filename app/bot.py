@@ -1,13 +1,16 @@
-from fastapi import FastAPI
-from aiogram import Bot, Dispatcher, executor, types
+from aiogram import Bot, Dispatcher, types, executor
 from app.config import settings
 from app.balaboba_handler import get_balaboba_text
 import app.text_responses as text_responses
+import os
 
-app = FastAPI()
 
 bot = Bot(settings.BOT_TOKEN)
 dp = Dispatcher(bot)
+
+WEBHOOK_HOST = settings.APP_URL
+WEBAPP_HOST = "0.0.0.0"
+WEBAPP_PORT = 8443
 
 
 @dp.message_handler(commands=["start"])
@@ -33,19 +36,25 @@ async def response_to_user(message):
     await message.reply(text)
 
 
-# @app.get("/")
-# def webhook():
-#     bot.remove_webhook()
-#     bot.set_webhook(url=APP_URL+BOT_TOKEN)
-#     return "webhook successfully set"
-#
-#
-# @app.post("/"+BOT_TOKEN, status_code=200)
-# async def get_message(request: Request):
-#     data = await request.json()
-#     update = telebot.types.Update.de_json(data)
-#     bot.process_new_updates([update])
-#     return {"message": str(update)}
+async def on_startup(dispatcher: Dispatcher) -> None:
+    await bot.delete_webhook()
+    await bot.set_webhook(f"{settings.APP_URL}{settings.BOT_TOKEN}")
 
-if __name__ == '__main__':
-    executor.start_polling(dp, skip_updates=True)
+
+async def on_shutdown():
+    await bot.delete_webhook()
+
+
+if __name__ == "__main__":
+    if "HEROKU" in list(os.environ.keys()):
+        executor.start_webhook(
+            dispatcher=dp,
+            webhook_path=WEBHOOK_HOST,
+            on_startup=on_startup,
+            on_shutdown=on_shutdown,
+            skip_updates=True,
+            host=WEBAPP_HOST,
+            port=int(os.getenv("PORT")),
+        )
+    else:
+        executor.start_polling(dp)
