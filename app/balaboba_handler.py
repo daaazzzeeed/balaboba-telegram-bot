@@ -1,7 +1,6 @@
-import aiobalaboba
+import balaboba_engine
 
 
 async def get_balaboba_text(message: str) -> str:
-    response = await aiobalaboba.balaboba(message)
-    print(response)
+    response = await balaboba_engine.balaboba(message)
     return response

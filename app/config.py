@@ -1,2 +1,13 @@
-BOT_TOKEN = "2146860889:AAGNYkxnI9IwQDr0sRVtDdbi55T4Hc9Ro_I"
-APP_URL = "https://balaboba-telegram-bot.herokuapp.com/2146860889:AAGNYkxnI9IwQDr0sRVtDdbi55T4Hc9Ro_I"
+from pydantic import BaseSettings
+
+
+class Settings(BaseSettings):
+    BOT_TOKEN: str = ""
+    APP_URL: str = ""
+
+    class Config:
+        env_file = '../.env'
+        env_file_encoding = "utf-8"
+
+
+settings = Settings()
