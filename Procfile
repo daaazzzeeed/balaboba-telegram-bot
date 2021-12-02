@@ -1,1 +1,1 @@
-web: ado app.bot:app
+web: python app.bot.py
