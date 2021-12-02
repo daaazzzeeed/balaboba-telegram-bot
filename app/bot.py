@@ -54,7 +54,7 @@ if __name__ == "__main__":
             on_shutdown=on_shutdown,
             skip_updates=True,
             host=WEBAPP_HOST,
-            port=int(os.getenv("PORT")),
+            port=int(os.environ.get('PORT', 5000)),
         )
     # else:
     #      executor.start_polling(dp)
