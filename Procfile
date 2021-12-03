@@ -1,1 +1,1 @@
-web: cd bot_core && python3 bot.py
+web: python3 bot_core.bot
