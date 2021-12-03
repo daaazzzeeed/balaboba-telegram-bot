@@ -11,6 +11,9 @@ logger = logging.getLogger(__name__)
 logger.info("STARTING............")
 
 WEBHOOK_HOST = settings.APP_URL
+WEBHOOK_PATH = f"/webhook/{settings.BOT_TOKEN}"
+WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
+
 WEBAPP_HOST = "0.0.0.0"
 WEBAPP_PORT = 8443
 
@@ -42,7 +45,7 @@ async def response_to_user(message):
 
 async def on_startup(dispatcher: Dispatcher) -> None:
     await bot.delete_webhook()
-    await bot.set_webhook(f"{settings.APP_URL}{settings.BOT_TOKEN}")
+    await bot.set_webhook(WEBHOOK_URL)
 
 
 async def on_shutdown():
