@@ -1,1 +1,1 @@
-web: python3 /app/bot_core/bot.py
+web: cd bot_core && python3 bot.py
