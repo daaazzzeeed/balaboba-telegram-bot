@@ -8,6 +8,7 @@ import logging
 bot = Bot(settings.BOT_TOKEN)
 dp = Dispatcher(bot)
 logger = logging.getLogger(__name__)
+logger.info("STARTING............")
 
 WEBHOOK_HOST = settings.APP_URL
 WEBAPP_HOST = "0.0.0.0"
