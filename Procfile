@@ -1,1 +1,1 @@
-web: python /app/bot.py
+web: cd app python bot.py
