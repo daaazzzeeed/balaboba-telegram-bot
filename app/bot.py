@@ -3,14 +3,17 @@ from app.config import settings
 from app.balaboba_handler import get_balaboba_text
 import app.text_responses as text_responses
 import os
-
+import logging
 
 bot = Bot(settings.BOT_TOKEN)
 dp = Dispatcher(bot)
+logger = logging.getLogger(__name__)
 
 WEBHOOK_HOST = settings.APP_URL
 WEBAPP_HOST = "0.0.0.0"
 WEBAPP_PORT = 8443
+
+logger.info(settings.BOT_TOKEN)
 
 
 @dp.message_handler(commands=["start"])
