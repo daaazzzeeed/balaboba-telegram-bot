@@ -53,6 +53,8 @@ if __name__ == "__main__":
     if "HEROKU" in list(os.environ.keys()):
         print(list(os.environ.keys()))
         print("HEROKU in env")
+        print("WH_HOST:", WEBHOOK_HOST)
+        print("WA_HOST:", WEBAPP_HOST)
         executor.start_webhook(
             dispatcher=dp,
             webhook_path=WEBHOOK_HOST,
