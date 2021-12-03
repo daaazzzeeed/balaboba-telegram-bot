@@ -51,7 +51,7 @@ async def on_shutdown():
 
 if __name__ == "__main__":
     if "HEROKU" in list(os.environ.keys()):
-        logger.log("HEROKU in env")
+        logger.debug("HEROKU in env")
         executor.start_webhook(
             dispatcher=dp,
             webhook_path=WEBHOOK_HOST,
@@ -62,5 +62,5 @@ if __name__ == "__main__":
             port=int(os.environ.get('PORT', 5000)),
         )
     else:
-        logger.log("no HEROKU in env")
+        logger.debug("no HEROKU in env")
         executor.start_polling(dp)
