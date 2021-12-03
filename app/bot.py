@@ -51,6 +51,7 @@ async def on_shutdown():
 
 if __name__ == "__main__":
     if "HEROKU" in list(os.environ.keys()):
+        print(list(os.environ.keys()))
         print("no HEROKU in env")
         executor.start_webhook(
             dispatcher=dp,
