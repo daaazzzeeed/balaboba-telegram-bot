@@ -60,5 +60,5 @@ if __name__ == "__main__":
             host=WEBAPP_HOST,
             port=int(os.environ.get('PORT', 5000)),
         )
-    # else:
-    #      executor.start_polling(dp)
+    else:
+         executor.start_polling(dp)
