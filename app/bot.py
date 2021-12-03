@@ -64,4 +64,5 @@ if __name__ == "__main__":
         )
     else:
         print("no HEROKU in env")
+        print(list(os.environ.keys()))
         executor.start_polling(dp)
