@@ -1,7 +1,7 @@
 from aiogram import Bot, Dispatcher, types, executor
-from bot_core.config import settings
-from bot_core.balaboba_handler import get_balaboba_text
-import bot_core.text_responses as text_responses
+from app.config import settings
+from app.balaboba_handler import get_balaboba_text
+import app.text_responses as text_responses
 import os
 import logging
 
