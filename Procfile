@@ -1,1 +1,1 @@
-web: python3 bot.py
+web: /bot/corepython3 bot.py
