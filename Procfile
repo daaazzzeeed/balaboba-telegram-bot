@@ -1,1 +1,1 @@
-web: cd app && python bot.py
+web: python app/bot.py
