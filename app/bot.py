@@ -4,6 +4,7 @@ from app.balaboba_handler import get_balaboba_text
 import app.text_responses as text_responses
 import os
 import logging
+from app.consts import AppModes
 
 bot = Bot(settings.BOT_TOKEN)
 dp = Dispatcher(bot)
@@ -38,9 +39,20 @@ async def bye(message: types.Message):
 
 
 @dp.message_handler(content_types=["text"])
-async def response_to_user(message):
+async def response_to_user(message: types.Message):
     text = await get_balaboba_text(message.text)
     await message.reply(text)
+
+
+@dp.message_handler(commands=["mode"])
+async def switch_mode(message: types.Message):
+    if settings.APP_MODE == AppModes.Webhook:
+        settings.APP_MODE = AppModes.Polling
+        await message.reply("Mode switched to polling")
+    else:
+        settings.APP_MODE = AppModes.Webhook
+        await message.reply("Mode switched to webhooks")
+    start_bot()
 
 
 async def on_startup(dispatcher: Dispatcher) -> None:
@@ -52,8 +64,8 @@ async def on_shutdown():
     await bot.delete_webhook()
 
 
-if __name__ == "__main__":
-    if "HEROKU" in list(os.environ.keys()):
+def start_bot():
+    if "HEROKU" in list(os.environ.keys()) and settings.APP_MODE == AppModes.Webhook:
         print(list(os.environ.keys()))
         print("HEROKU in env")
         print("WH_HOST:", WEBHOOK_HOST)
@@ -71,3 +83,8 @@ if __name__ == "__main__":
         print("no HEROKU in env")
         print(list(os.environ.keys()))
         executor.start_polling(dp)
+
+
+if __name__ == "__main__":
+    bot.delete_webhook()
+    start_bot()
