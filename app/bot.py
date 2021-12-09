@@ -79,12 +79,16 @@ def start_bot():
             host=WEBAPP_HOST,
             port=int(os.environ.get('PORT', 5000)),
         )
+        settings.WEBHOOK_IS_SET = True
+        print("Webhook was set...")
     else:
         print("no HEROKU in env")
         print(list(os.environ.keys()))
         executor.start_polling(dp)
+        print("Polling...")
 
 
 if __name__ == "__main__":
-    bot.delete_webhook()
+    if settings.WEBHOOK_IS_SET:
+        bot.delete_webhook()
     start_bot()
