@@ -38,12 +38,6 @@ async def bye(message: types.Message):
     await bot.send_message(message.chat.id, "Пока-пока!")
 
 
-@dp.message_handler(content_types=["text"])
-async def response_to_user(message: types.Message):
-    text = await get_balaboba_text(message.text)
-    await message.reply(text)
-
-
 @dp.message_handler(commands=["mode"])
 async def switch_mode(message: types.Message):
     if settings.APP_MODE == AppModes.Webhook:
@@ -53,6 +47,12 @@ async def switch_mode(message: types.Message):
         settings.APP_MODE = AppModes.Webhook
         await message.reply("Mode switched to webhooks")
     start_bot()
+
+
+@dp.message_handler(content_types=["text"])
+async def response_to_user(message: types.Message):
+    text = await get_balaboba_text(message.text)
+    await message.reply(text)
 
 
 async def on_startup(dispatcher: Dispatcher) -> None:
