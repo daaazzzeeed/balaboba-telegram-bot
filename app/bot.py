@@ -43,10 +43,22 @@ async def switch_mode(message: types.Message):
     if settings.APP_MODE == AppModes.Webhook:
         settings.APP_MODE = AppModes.Polling
         await message.reply("Mode switched to polling")
+        await bot.delete_webhook()
+        executor.start_polling(dp)
     else:
         settings.APP_MODE = AppModes.Webhook
         await message.reply("Mode switched to webhooks")
-    start_bot()
+        settings.WEBHOOK_IS_SET = True
+        print("Webhook was set...")
+        executor.start_webhook(
+            dispatcher=dp,
+            webhook_path=WEBHOOK_PATH,
+            on_startup=on_startup,
+            on_shutdown=on_shutdown,
+            skip_updates=True,
+            host=WEBAPP_HOST,
+            port=int(os.environ.get('PORT', 5000)),
+        )
 
 
 @dp.message_handler(content_types=["text"])
@@ -62,6 +74,20 @@ async def on_startup(dispatcher: Dispatcher) -> None:
 
 async def on_shutdown():
     await bot.delete_webhook()
+
+
+def setup_webhook():
+    settings.WEBHOOK_IS_SET = True
+    print("Webhook was set...")
+    executor.start_webhook(
+        dispatcher=dp,
+        webhook_path=WEBHOOK_PATH,
+        on_startup=on_startup,
+        on_shutdown=on_shutdown,
+        skip_updates=True,
+        host=WEBAPP_HOST,
+        port=int(os.environ.get('PORT', 5000)),
+    )
 
 
 def start_bot():
