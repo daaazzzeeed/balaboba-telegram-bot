@@ -70,6 +70,8 @@ def start_bot():
         print("HEROKU in env")
         print("WH_HOST:", WEBHOOK_HOST)
         print("WA_HOST:", WEBAPP_HOST)
+        settings.WEBHOOK_IS_SET = True
+        print("Webhook was set...")
         executor.start_webhook(
             dispatcher=dp,
             webhook_path=WEBHOOK_PATH,
@@ -79,8 +81,6 @@ def start_bot():
             host=WEBAPP_HOST,
             port=int(os.environ.get('PORT', 5000)),
         )
-        settings.WEBHOOK_IS_SET = True
-        print("Webhook was set...")
     else:
         print("no HEROKU in env")
         print(list(os.environ.keys()))
