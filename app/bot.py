@@ -89,12 +89,13 @@ def setup_webhook():
 
 
 def start_bot():
-    settings.WEBHOOK_IS_SET = True
-    print("Webhook was set...")
-    setup_webhook()
+    # settings.WEBHOOK_IS_SET = True
+    # print("Webhook was set...")
+    # setup_webhook()
+    executor.start_polling(dp)
 
 
 if __name__ == "__main__":
-    if settings.WEBHOOK_IS_SET:
-        bot.delete_webhook()
+    # if settings.WEBHOOK_IS_SET:
+    #     bot.delete_webhook()
     start_bot()
