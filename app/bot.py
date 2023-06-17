@@ -11,9 +11,7 @@ dp = Dispatcher(bot)
 logger = logging.getLogger(__name__)
 logger.info("STARTING............")
 
-WEBHOOK_HOST = settings.APP_URL
-WEBHOOK_PATH = f"/webhook/{settings.BOT_TOKEN}"
-WEBHOOK_URL = f"{WEBHOOK_HOST}{WEBHOOK_PATH}"
+WEBHOOK_URL = settings.APP_URL
 
 WEBAPP_HOST = "0.0.0.0"
 WEBAPP_PORT = 8443
@@ -52,7 +50,7 @@ async def switch_mode(message: types.Message):
         print("Webhook was set...")
         executor.start_webhook(
             dispatcher=dp,
-            webhook_path=WEBHOOK_PATH,
+            webhook_path=WEBHOOK_URL,
             on_startup=on_startup,
             on_shutdown=on_shutdown,
             skip_updates=True,
@@ -81,7 +79,7 @@ def setup_webhook():
     print("Webhook was set...")
     executor.start_webhook(
         dispatcher=dp,
-        webhook_path=WEBHOOK_PATH,
+        webhook_path=WEBHOOK_URL,
         on_startup=on_startup,
         on_shutdown=on_shutdown,
         skip_updates=True,
@@ -91,27 +89,9 @@ def setup_webhook():
 
 
 def start_bot():
-    if "HEROKU" in list(os.environ.keys()) and settings.APP_MODE == AppModes.Webhook:
-        print(list(os.environ.keys()))
-        print("HEROKU in env")
-        print("WH_HOST:", WEBHOOK_HOST)
-        print("WA_HOST:", WEBAPP_HOST)
-        settings.WEBHOOK_IS_SET = True
-        print("Webhook was set...")
-        executor.start_webhook(
-            dispatcher=dp,
-            webhook_path=WEBHOOK_PATH,
-            on_startup=on_startup,
-            on_shutdown=on_shutdown,
-            skip_updates=True,
-            host=WEBAPP_HOST,
-            port=int(os.environ.get('PORT', 5000)),
-        )
-    else:
-        print("no HEROKU in env")
-        print(list(os.environ.keys()))
-        executor.start_polling(dp)
-        print("Polling...")
+    settings.WEBHOOK_IS_SET = True
+    print("Webhook was set...")
+    setup_webhook()
 
 
 if __name__ == "__main__":
