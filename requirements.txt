@@ -8,6 +8,5 @@ typing-extensions==3.10.0.2
 uvicorn==0.15.0
 aiogram
 gunicorn==20.1.0
-pydantic
 python-dotenv
 aiohttp
